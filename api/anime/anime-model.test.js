@@ -25,5 +25,21 @@ describe('anime model', () => {
             expect(result[0]).toMatchObject({anime_id: 1, name: 'Naruto',watched: 1})
         })
     })
-    // describe()
+    describe('getById', () => {
+        it('resolves an anime with given id', async () => {
+            const res = await Anime.getById(1);
+            expect(res).toMatchObject({anime_id: 1, name: 'Naruto',watched: 1})
+        }) 
+    })
+    describe('insert', () => {
+        it('inserts anime to database', async () => {
+            await Anime.insert({name: 'Boruto'});
+            const [boruto] = await db('anime').where('anime_id', 5);
+            expect(boruto).toMatchObject({anime_id: 5,name: 'Boruto', watched: 0})
+        })
+        it('resolves new anime with anime_id, name, watched', async () => {
+            const res = await Anime.insert({name: 'Boruto'});
+            expect(res).toMatchObject({anime_id: 5,name: 'Boruto', watched: 0})
+        })
+    })
 })
